@@ -1,0 +1,214 @@
+From handout:
+
+Test-case 1:
+
+server output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -s 2000
+[Server started. ip is 10.162.0.2. port is 2000.]
+^Cyd2611@csee4119-instance-1:~/PA1$ 
+
+
+client x output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c x 10.162.0.2 2000 3000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> send y msg 1
+>>> [Message received by <y>.]
+>>> send z msg 2
+>>> [Message received by <z>.]
+>>> [Client y: msg 3]
+>>> [Client z: msg 5]
+>>> dereg x
+>>> [You are Offline. Bye.]
+>>> reg x
+>>> [Welcome, You are registered.]
+>>> [You Have Messages.]
+>>> [Client y: 2022-03-24 23:03:37 hello im y]
+>>> [Client z: 2022-03-24 23:03:47 hello im z]
+>>> [Client table updated.]
+>>> ^Cyd2611@csee4119-instance-1:~/PA1$
+
+
+client y output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c y 10.162.0.2 2000 4000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> [Client x: msg 1]
+>>> send x msg 3
+>>> [Message received by <x>.]
+>>> send z msg 4
+>>> [Message received by <z>.]
+>>> [Client z: msg 6]
+>>> [Client table updated.]
+>>> send x hello im y
+>>> [No ACK from <x>, message sent to server.]
+>>> [Messages received by the server and saved.]
+>>> >>> [Client table updated.]
+>>> ^Cyd2611@csee4119-instance-1:~/PA1$
+
+
+client z output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c z 10.162.0.2 2000 5000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Client x: msg 2]
+>>> [Client y: msg 4]
+>>> send x msg 5
+>>> [Message received by <x>.]
+>>> send y msg 6
+>>> [Message received by <y>.]
+>>> [Client table updated.]
+>>> send x hello im z
+>>> [No ACK from <x>, message sent to server.]
+>>> [Messages received by the server and saved.]
+>>> >>> [Client table updated.]
+>>> ^Cyd2611@csee4119-instance-1:~/PA1$
+
+
+
+
+Test case 2:
+
+server output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -s 2000
+[Server started. ip is 10.162.0.2. port is 2000.]
+^Cyd2611@csee4119-instance-1:~/PA1$
+
+
+client x output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c x 10.162.0.2 2000 3000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> send y hello im x
+>>> [No ACK from <y>, message sent to server.]
+>>> [Server not responding]
+>>> [Exiting]
+yd2611@csee4119-instance-1:~/PA1$
+
+
+client y output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c y 10.162.0.2 2000 4000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> dereg y
+>>> [You are Offline. Bye.]
+>>> 
+
+
+
+
+Test case 3:
+
+
+server outputl:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -s 2000
+[Server started. ip is 10.162.0.2. port is 2000.]
+
+
+client x output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c x 10.162.0.2 2000 3000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> send_all hello im x
+>>> [Message received by Server.]
+>>> 
+
+
+client y output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c y 10.162.0.2 2000 4000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> [Channel-Message client x: hello im x]
+>>> 
+
+
+client z output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c z 10.162.0.2 2000 5000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Channel-Message client x: hello im x]
+>>> 
+
+
+
+Personal test case:
+
+1. start server
+2. start client x (table send to x)
+3. start client y (table send  to x and y)
+4. dereg y (ack to y, table send to x)
+5. send x->y (msg1 to server)
+6. send group message x->y (msg2 to server)
+7. send x-> y (msg3 to server)
+8. reg y (show 3 saved msg in the order of msg2, msg1, msg3)
+9. dereg y (send table to x)
+10. reg y (no saved msg)
+11. reg y (warning of client y exists!!)
+
+server output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -s 2000
+[Server started. ip is 10.162.0.2. port is 2000.]
+
+client x otuput :
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c x 10.162.0.2 2000 3000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> send y msg 1
+>>> [No ACK from <y>, message sent to server.]
+>>> [Messages received by the server and saved.]
+>>> >>> send_all msg 2
+>>> [Message received by Server.]
+>>> send y msg 3
+>>> [No ACK from <y>, message sent to server.]
+>>> [Messages received by the server and saved.]
+>>> >>> [Client table updated.]
+>>> [Client table updated.]
+>>> [Client table updated.]
+>>> 
+
+
+client y output:
+
+yd2611@csee4119-instance-1:~/PA1$ python3 ChatApp.py -c y 10.162.0.2 2000 4000
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> dereg y
+>>> [You are Offline. Bye.]
+>>> reg y
+>>> [Welcome, You are registered.]
+>>> [You Have Messages.]
+>>> [Channel-Message client x: 2022-03-24 23:11:15 msg 2]
+>>> [Client x: 2022-03-24 23:11:07 msg 1]
+>>> [Client x: 2022-03-24 23:11:20 msg 3]
+>>> [Client table updated.]
+>>> dereg y
+>>> [You are Offline. Bye.]
+>>> reg y
+>>> [Welcome, You are registered.]
+>>> [Client table updated.]
+>>> reg y
+>>> [Client <y> exists!!]
+>>> 
